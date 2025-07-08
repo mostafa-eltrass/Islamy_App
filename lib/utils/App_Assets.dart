@@ -1,4 +1,5 @@
 class AppAssets {
+   static const String ms = 'assets/images/ms.png';
   static const String iconQuran = 'assets/images/Vector.png';
   static const String iconQHadeth =
       'assets/images/book-album-svgrepo-com 1.png';
@@ -14,4 +15,5 @@ class AppAssets {
   static const String IconSearch = 'assets/images/Icon_Search.png';
   static const String icontoot = 'assets/images/icontoot.png';
   static const String Vectoor = 'assets/images/Vectoor.png';
+ 
 }

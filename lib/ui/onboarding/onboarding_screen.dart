@@ -44,16 +44,22 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   void nextPage() {
     if (currentPage < pages.length - 1) {
       _pageController.nextPage(
-          duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut);
     } else {
-      Navigator.pushReplacementNamed(context, HomeScreen.routName);
+      // ✅ ننتقل إلى الصفحة الرئيسية ونمسح كل الشاشات السابقة
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) =>   HomeScreen()),
+        (route) => false,
+      );
     }
   }
 
   void previousPage() {
     if (currentPage > 0) {
       _pageController.previousPage(
-          duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut);
     }
   }
 
@@ -71,7 +77,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               padding: const EdgeInsets.only(top: 10),
               child: Image.asset('assets/images/logo.png', height: 90),
             ),
-
             const SizedBox(height: 10),
 
             // ✅ محتوى الصفحات
@@ -121,7 +126,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
             ),
 
-            // ✅ الدوتس
+            // ✅ النقاط
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(pages.length, (index) {
