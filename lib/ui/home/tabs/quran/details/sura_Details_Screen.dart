@@ -1,10 +1,14 @@
+ 
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:islamy/providers/most_recent_provider.dart';
 import 'package:islamy/ui/home/tabs/quran/details/sura_content_item.dart';
 import 'package:islamy/ui/home/tabs/quran/quran_resources.dart';
 import 'package:islamy/utils/App_Assets.dart';
 import 'package:islamy/utils/App_Colors.dart';
 import 'package:islamy/utils/App_Style.dart';
+import 'package:provider/provider.dart';
 
 class SuraDetailsScreen extends StatefulWidget {
   static const String routeName = 'Sura-Details';
@@ -15,10 +19,16 @@ class SuraDetailsScreen extends StatefulWidget {
 
 class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
   List<String> verses = [];
+  late MostRecentProvider mostRecentProvider;
   late int index;
   bool isLoading = true;
 
   @override
+  void dispose() {
+    super.dispose();
+    mostRecentProvider.getMostRecentSuraList();
+  }
+
   void didChangeDependencies() {
     super.didChangeDependencies();
     index = ModalRoute.of(context)?.settings.arguments as int;
@@ -33,8 +43,9 @@ class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
   }
 
   void loadSuraFile(int index) async {
-    String fileContent =
-        await rootBundle.loadString('assets/files/${index + 1}.txt');
+    String fileContent = await rootBundle.loadString(
+      'assets/files/${index + 1}.txt',
+    );
     List<String> lines = fileContent.trim().split('\n');
 
     setState(() {
@@ -44,6 +55,7 @@ class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    mostRecentProvider = Provider.of<MostRecentProvider>(context);
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.manual,
       overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
@@ -63,12 +75,7 @@ class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
         alignment: Alignment.topCenter,
         children: [
           /// ✅ الخلفية
-          Positioned.fill(
-            child: Image.asset(
-              AppAssets.ms,
-              fit: BoxFit.fill,
-            ),
-          ),
+          Positioned.fill(child: Image.asset(AppAssets.ms, fit: BoxFit.fill)),
 
           /// ✅ اسم السورة
           Padding(
@@ -82,21 +89,24 @@ class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
 
           /// ✅ اللودر أو المحتوى
           if (isLoading || verses.isEmpty)
-            Center(child: CircularProgressIndicator(color: AppColors.primaryColor))
+            Center(
+              child: CircularProgressIndicator(color: AppColors.primaryColor),
+            )
           else
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    top: 100, left: 16, right: 16, bottom: 32),
+                  top: 100,
+                  left: 16,
+                  right: 16,
+                  bottom: 32,
+                ),
                 child: ListView.builder(
                   itemCount: verses.length,
                   itemBuilder: (context, i) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: SuraContentItem(
-                        suraContent: verses[i],
-                        index: i,
-                      ),
+                      child: SuraContentItem(suraContent: verses[i], index: i),
                     );
                   },
                 ),
