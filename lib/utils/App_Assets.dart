@@ -15,5 +15,9 @@ class AppAssets {
   static const String IconSearch = 'assets/images/Icon_Search.png';
   static const String icontoot = 'assets/images/icontoot.png';
   static const String Vectoor = 'assets/images/Vectoor.png';
+  static const String hadethCornerLift = 'assets/images/Cornerr2.png';
+  static const String hadethCornerRight = 'assets/images/Cornerr1.png';
+  static const String hadethDetailsBg = 'assets/images/HadithCardBackGround1.png';
+  static const String hadethMosque = 'assets/images/Mosque-022.png';
  
 }
